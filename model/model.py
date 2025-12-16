@@ -148,7 +148,7 @@ class Model:
                 peso_arco = nuovo_grafo[u][v]['weight']
                 path_archi_con_peso.append((u, v, peso_arco))
 
-            # ordine  richiesto dal ciclo for nel controller
+            # ordine richiesto dal ciclo for nel controller
             return path_archi_con_peso, somma_pesi_minima
 
         return [], 0.0

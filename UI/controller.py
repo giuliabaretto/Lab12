@@ -64,7 +64,7 @@ class Controller:
             self._view.show_alert("Inserisci un soglia valida")
             return
 
-        peso_totale, cammino = self._model.cammino_minimo_nx() #uso metodo networkx (potrei usare anche quello ricorsivo)
+        cammino, peso_totale = self._model.cammino_minimo_nx() #uso metodo networkx (potrei usare anche quello ricorsivo)
         #spaccattamento : risultato era una tupla
 
         self._view.lista_visualizzazione_3.controls.clear()
