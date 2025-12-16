@@ -1,6 +1,8 @@
 import flet as ft
 from UI.view import View
 from model.model import Model
+import networkx as nx
+
 
 
 class Controller:
@@ -47,5 +49,34 @@ class Controller:
         self._view.page.update()
 
     """Implementare la parte di ricerca del cammino minimo"""
-    # TODO
+
+    def handle_cammino_minimo(self, e):
+        # per il pulsante "cammino minimo"
+
+        #controllo grafo e soglia
+        if not self._model.G or nx.number_of_nodes(self._model.G) == 0:
+            self._view.show_alert("Crea prima il grafico")
+            return
+
+        soglia = float(self._view.txt_soglia.value)
+
+        if soglia is None:
+            self._view.show_alert("Inserisci un soglia valida")
+            return
+
+        peso_totale, cammino = self._model.cammino_minimo_nx() #uso metodo networkx (potrei usare anche quello ricorsivo)
+        #spaccattamento : risultato era una tupla
+
+        self._view.lista_visualizzazione_3.controls.clear()
+
+        if cammino:
+            self._view.lista_visualizzazione_3.controls.append(ft.Text(f"Cammino minimo: {peso_totale:.2f}"))
+            # stampo sequenza di archi del cammino
+            for u, v, peso_arco in cammino:
+                # utilizzo gli attributi di u e v che sono oggetti rifugio
+                self._view.lista_visualizzazione_3.controls.append(ft.Text(f"{u.nome} -> {v.nome} [peso: {peso_arco:.2f}]"))
+        else:
+            self._view.lista_visualizzazione_3.controls.append(ft.Text("Nessun cammino minimo valido trovato che rispetti i vincoli (almeno 2 archi e peso>soglia"))
+
+        self._view.page.update()
 
